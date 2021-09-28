@@ -7,20 +7,20 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.io.File;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 @SpringBootApplication
 public class CitiesApplication {
-
-    private final static String PATH = "/Users/a19572284/Desktop/cities.txt";
 
     public static void main(String[] args) {
 
         ConfigurableApplicationContext applicationContext = SpringApplication.run(CitiesApplication.class, args);
         CityService cityService = applicationContext.getBean("cityService", CityService.class);
 
-        List<City> cities = Parser.parseCityFromFile(PATH);
+        List<City> cities = Parser.parseCityFromFile();
         cityService.saveCities(cities);
 
         boolean loop = true;
