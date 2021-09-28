@@ -1,62 +1,41 @@
 package com.example.cities.service;
 
 import com.example.cities.model.City;
-import com.example.cities.repository.CityRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-@Service
-public class CityService {
+public interface CityService {
 
-    private CityRepository cityRepository;
+    /**
+     * Сохранение городов в БД
+     */
+    void saveCities(List<City> cities);
 
-    public CityService(CityRepository cityRepository) {
-        this.cityRepository = cityRepository;
-    }
+    /**
+     * Поиск в БД всех городов
+     */
+    List<City> findAll();
 
-    public void saveCities(List<City> cities) {
-        if (cities != null && !cities.isEmpty()) {
-            for (City city : cities) {
-                cityRepository.save(city);
-            }
-        }
-    }
+    /**
+     * Возвращает список городов, отсортированный по имени без учета регистра
+     * @return  List<City>
+     */
+    List<City> findAllSortedByName();
 
-    public List<City> findAll() {
-        return cityRepository.findAll();
-    }
+    /**
+     * Возвращает список городов, отсортированный сначала по федеральному округу, затем по имени города
+     * @return List<City>
+     */
+    List<City> findAllSortedByDistrictAndName();
 
-    public List<City> findAllSortedByName() {
-        return cityRepository.findAllIgnoreCaseByOrderByName();
-    }
+    /**
+     * Ищет город с максимальным населением
+     * @return String
+     */
+    String findMaxPopulationCity();
 
-    public List<City> findAllSortedByDistrictAndName() {
-        return cityRepository.findAllOrderedByDistrictAndName();
-    }
-
-    public String findMaxPopulationCity() {
-        City[] cities = (City[]) cityRepository.findAll().toArray(new City[0]);
-        int max = 0;
-        int index = 0;
-        for (int i = 0; i < cities.length; i++) {
-            if (cities[i].getPopulation() > max) {
-                max = cities[i].getPopulation();
-                index = i;
-            }
-        }
-        return "[" + index + "] = " + max;
-
-    }
-
-    public void numberCitiesInRegions() {
-
-
-        Map<String, Long> map = cityRepository.findAll().stream().collect(Collectors.groupingBy(City::getRegion, Collectors.counting()));
-        System.out.println(map);
-    }
-
-
+    /**
+     * Показывает количество городов в разбивке по регионам
+     */
+     void numberCitiesInRegions();
 }

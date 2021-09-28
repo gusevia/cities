@@ -1,15 +1,13 @@
 package com.example.cities;
 
 import com.example.cities.model.City;
-import com.example.cities.service.CityService;
+import com.example.cities.service.CityServiceImpl;
 import com.example.cities.util.Parser;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.io.File;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 
 @SpringBootApplication
@@ -18,7 +16,7 @@ public class CitiesApplication {
     public static void main(String[] args) {
 
         ConfigurableApplicationContext applicationContext = SpringApplication.run(CitiesApplication.class, args);
-        CityService cityService = applicationContext.getBean("cityService", CityService.class);
+        CityServiceImpl cityService = applicationContext.getBean("cityServiceImpl", CityServiceImpl.class);
 
         List<City> cities = Parser.parseCityFromFile();
         cityService.saveCities(cities);
