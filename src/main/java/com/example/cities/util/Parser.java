@@ -12,14 +12,8 @@ import java.util.Scanner;
 public class Parser {
     private static final File file = new File(Objects.requireNonNull(Parser.class.getClassLoader().getResource("cities.txt")).getFile());
 
-
     public static List<City> parseCityFromFile() {
-
-
         List<City> cities = new ArrayList<>();
-        // File file = new File(path);
-        //   File file = new File(getClass.getClassLoader);
-
 
         try {
             Scanner scanner = new Scanner(file);
