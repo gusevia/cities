@@ -18,45 +18,49 @@ public class CitiesApplication {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(CitiesApplication.class, args);
         CityServiceImpl cityService = applicationContext.getBean("cityServiceImpl", CityServiceImpl.class);
 
-        List<City> cities = Parser.parseCityFromFile();
-        cityService.saveCities(cities);
+        try {
+            List<City> cities = Parser.parseCityFromFile();
+            cityService.saveCities(cities);
+            boolean loop = true;
+            while (loop) {
+                System.out.println("Выберете требуемое действие");
+                System.out.println("1) Список городов");
+                System.out.println("2) Отсортированный список городов по имени");
+                System.out.println("3) Отсортированный список городов по федеральному округу и имени");
+                System.out.println("4) Город с наибольшей популяцией");
+                System.out.println("5) Количество городов в регионах");
+                System.out.println("6) Выход");
 
-        boolean loop = true;
-        while (loop) {
-            System.out.println("Выберете требуемое действие");
-            System.out.println("1) Список городов");
-            System.out.println("2) Отсортированный список городов по имени");
-            System.out.println("3) Отсортированный список городов по федеральному округу и имени");
-            System.out.println("4) Город с наибольшей популяцией");
-            System.out.println("5) Количество городов в регионах");
-            System.out.println("6) Выход");
 
-
-            Scanner scanner = new Scanner(System.in);
-            switch (scanner.next()) {
-                case "1":
-                    List<City> allCities = cityService.findAll();
-                    allCities.forEach(System.out::println);
-                    break;
-                case "2":
-                    List<City> allCitiesSorted = cityService.findAllSortedByName();
-                    allCitiesSorted.forEach(System.out::println);
-                    break;
-                case "3":
-                    List<City> allCitiesSortedByDistrictAndName = cityService.findAllSortedByDistrictAndName();
-                    allCitiesSortedByDistrictAndName.forEach(System.out::println);
-                    break;
-                case "4":
-                    System.out.println(cityService.findMaxPopulationCity());
-                    break;
-                case "5":
-                    cityService.numberCitiesInRegions();
-                    break;
-                case "6":
-                    loop = false;
-                    scanner.close();
-                    break;
-            }
+                Scanner scanner = new Scanner(System.in);
+                switch (scanner.next()) {
+                    case "1":
+                        List<City> allCities = cityService.findAll();
+                        allCities.forEach(System.out::println);
+                        break;
+                    case "2":
+                        List<City> allCitiesSorted = cityService.findAllSortedByName();
+                        allCitiesSorted.forEach(System.out::println);
+                        break;
+                    case "3":
+                        List<City> allCitiesSortedByDistrictAndName = cityService.findAllSortedByDistrictAndName();
+                        allCitiesSortedByDistrictAndName.forEach(System.out::println);
+                        break;
+                    case "4":
+                        System.out.println(cityService.findMaxPopulationCity());
+                        break;
+                    case "5":
+                        cityService.numberCitiesInRegions();
+                        break;
+                    case "6":
+                        loop = false;
+                        scanner.close();
+                        break;
+                }
+        }
+        }
+        catch (Exception ex) {
+            System.out.println("Неверный формат исходных данных");
         }
 
     }

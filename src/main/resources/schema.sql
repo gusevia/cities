@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS citiwww;
+DROP TABLE IF EXISTS cities;
 
 
 create table IF NOT EXISTS cities
